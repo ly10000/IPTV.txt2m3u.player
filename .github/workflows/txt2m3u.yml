@@ -28,7 +28,7 @@ jobs:
         
         # 克隆仓库（使用 HTTPS + TOKEN 避免权限问题）
         git clone "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
-        cd ${{ github.repository_name }} || exit 1  # 强制失败时退出
+        cd ${{ github.repository.name }} || exit 1  # 强制失败时退出
         pwd
 
         # 后续操作...
