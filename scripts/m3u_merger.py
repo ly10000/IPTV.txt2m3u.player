@@ -19,8 +19,7 @@ def parse_single_m3u(m3u_content):
         
     lines = [line.strip() for line in m3u_content.strip().split('\n') if line.strip()]
     
-    # channels_map 现在将存储 group_title
-    # { "频道名称": {"info": "#EXTINF...", "urls": set(), "group": "..."} }
+    # channels_map 结构: { "频道名称": {"info": "#EXTINF...", "urls": set(), "group": "..."} }
     channels_map = {}
     order_list = []
     header = ""
@@ -37,7 +36,7 @@ def parse_single_m3u(m3u_content):
         if line.startswith('#EXTINF:'):
             current_info_line = line
             
-            # 提取频道名称
+            # 提取频道名称 (以逗号后的内容为准)
             name_match = re.search(r',(.+)$', line)
             current_channel_name = name_match.group(1).strip() if name_match else None
             
@@ -53,26 +52,27 @@ def parse_single_m3u(m3u_content):
                     }
                     order_list.append(current_channel_name)
                 else:
+                    # 频道已存在，更新信息（使用最新文件中的 EXTINF 行）
                     channels_map[current_channel_name]["info"] = current_info_line
-                    # 总是更新分组信息，以防不同文件中的分组名不同
                     channels_map[current_channel_name]["group"] = group_title 
             
         elif (line.startswith('http://') or line.startswith('https://')):
             if current_channel_name and current_channel_name in channels_map:
+                # 使用集合来自动去重 URL
                 channels_map[current_channel_name]["urls"].add(line)
         
         else:
-             current_channel_name = None
+            # 重置，避免无关的行被视为 URL
+            current_channel_name = None
 
     return order_list, channels_map, header
 
-# --- 主函数：处理文件 I/O 和高级合并逻辑 ---
+# --- 主函数：实现 Group-Title 排序的合并逻辑 ---
 def main():
     parser = argparse.ArgumentParser(
-        description="合并多个M3U文件的内容，对同名频道下的所有URL进行去重和分组，并按 Group-Title 保持频道连续性。",
+        description="合并多个M3U文件的内容，对同名频道下的所有URL进行去重和分组，并**确保 Group-Title 块的连续性**。",
         formatter_class=argparse.RawTextHelpFormatter
     )
-    # ... (参数解析部分不变) ...
     parser.add_argument('-i', '--input', type=str, nargs='+', required=True, help="一个或多个输入M3U文件的路径")
     parser.add_argument('-o', '--output', type=str, required=True, help="输出M3U文件的路径")
     args = parser.parse_args()
@@ -82,101 +82,89 @@ def main():
         sys.exit(1)
         
     final_channels_map = {}
-    final_order_list = []
+    final_order_list = [] # 用于记录频道首次被发现的相对顺序（作为组内排序的基准）
     final_header = ""
     
-    # 辅助字典：存储每个分组最后出现在 final_order_list 中的索引
-    # { "group-title": index }
-    group_last_index = {} 
-    
-    # 1. 处理第一个文件 (作为基础顺序)
-    try:
-        input_file_1 = args.input[0]
-        if not os.path.exists(input_file_1):
-            raise FileNotFoundError(f"文件不存在: {input_file_1}")
-            
-        with open(input_file_1, 'r', encoding='utf-8') as f:
-            content_1 = f.read()
-            
-        temp_order_list, temp_map, header = parse_single_m3u(content_1)
-        
-        final_header = header
-        final_order_list.extend(temp_order_list)
-        final_channels_map.update(temp_map)
-        
-        # 初始化 group_last_index
-        for i, name in enumerate(final_order_list):
-            group = final_channels_map[name]["group"]
-            group_last_index[group] = i
-        
-    except Exception as e:
-        print(f"处理第一个文件 '{input_file_1}' 时发生错误: {e}", file=sys.stderr)
-        sys.exit(1)
-
-    # 2. 依次处理后续文件 (进行高级合并)
-    for input_file in args.input[1:]:
-        # ... (文件检查部分不变) ...
+    # 1. 处理所有输入文件并合并数据
+    for input_file in args.input:
         if not os.path.exists(input_file):
-             print(f"警告: 输入文件 '{input_file}' 不存在。跳过。", file=sys.stderr)
-             continue
+            print(f"警告: 输入文件 '{input_file}' 不存在。跳过。", file=sys.stderr)
+            continue
         if input_file == args.output:
             print(f"警告: 输入文件 '{input_file}' 和输出文件不能是同一个文件。跳过。", file=sys.stderr)
             continue
             
         try:
             with open(input_file, 'r', encoding='utf-8') as f:
-                content_n = f.read()
+                content = f.read()
                 
-            current_order_list, current_map, _ = parse_single_m3u(content_n) 
+            current_order_list, current_map, header = parse_single_m3u(content)
             
-            # --- 核心修改：基于 Group-Title 的插入逻辑 ---
+            if not final_header and header:
+                final_header = header
+                
+            # --- 核心合并逻辑 ---
             for channel_name in current_order_list:
                 current_channel_data = current_map[channel_name]
                 group = current_channel_data["group"]
                 
                 if channel_name in final_channels_map:
-                    # A. 频道已存在: 仅合并 URL 和更新属性
+                    # 频道已存在: 仅合并 URL 和更新属性
                     final_channels_map[channel_name]["info"] = current_channel_data["info"]
                     final_channels_map[channel_name]["group"] = group # 更新分组信息
                     final_channels_map[channel_name]["urls"].update(current_channel_data["urls"])
                     
-                    # 更新该分组的最新位置 (防止其他组的频道被插入到这个组的中间)
-                    try:
-                        group_last_index[group] = final_order_list.index(channel_name)
-                    except ValueError:
-                         pass # 理论上不会发生
-
                 else:
-                    # B. 频道是新的: 寻找正确的分组插入点
-                    
-                    # 1. 确定插入位置
-                    if group in group_last_index:
-                        # 插入到该分组中最后一个频道之后
-                        insert_index = group_last_index[group] + 1
-                    else:
-                        # 如果分组是全新的，则插入到 final_order_list 的末尾
-                        insert_index = len(final_order_list)
-                    
-                    # 2. 将新频道添加到最终 map
+                    # 频道是新的: 直接添加到 map 和 order_list 末尾
                     final_channels_map[channel_name] = current_channel_data
+                    final_order_list.append(channel_name) # 追加，不进行即时插入排序
                     
-                    # 3. 插入到 order_list 中
-                    final_order_list.insert(insert_index, channel_name)
-                    
-                    # 4. 更新该分组的最新位置到新插入的频道位置
-                    group_last_index[group] = insert_index
-
         except Exception as e:
             print(f"处理文件 '{input_file}' 时发生错误: {e}", file=sys.stderr)
             sys.exit(1)
 
-    # 3. 写入最终结果 (保持不变)
+    # 2. 排序最终结果：按照 Group-Title 块和组内原始顺序进行排序
+    
+    # 2.1. 确定分组的顺序 (Group Sort Key) - 基于 final_order_list 中 Group 的首次出现顺序
+    group_order_keys = {}
+    next_group_key = 0
+    
+    # 遍历 final_order_list 来建立分组的顺序基准
+    for name in final_order_list:
+        if name in final_channels_map:
+            group = final_channels_map[name]["group"]
+            if group not in group_order_keys:
+                group_order_keys[group] = next_group_key
+                next_group_key += 1
+    
+    # 2.2. 创建排序列表
+    # 排序元素: (组顺序键, 频道在 final_order_list 中的原始索引, 频道名称)
+    sortable_list = []
+    
+    for i, name in enumerate(final_order_list):
+        if name in final_channels_map:
+            group = final_channels_map[name]["group"]
+            # 新分组（不在 File 1 中）将使用 next_group_key，排在所有已知分组的最后
+            group_key = group_order_keys.get(group, next_group_key) 
+            
+            # 使用索引 'i' 作为次要排序键，保持同一组内频道在文件中的原始相对顺序
+            sortable_list.append((group_key, i, name)) 
+
+    # 2.3. 执行排序
+    # 按 Group Key 排序，其次按原始索引排序
+    sortable_list.sort(key=lambda x: (x[0], x[1]))
+    
+    # 2.4. 生成新的最终顺序列表
+    sorted_final_order_list = [item[2] for item in sortable_list]
+    
+    # 3. 写入最终结果
     output_lines = [final_header] if final_header else []
     
-    for name in final_order_list:
+    for name in sorted_final_order_list:
         if name in final_channels_map:
             data = final_channels_map[name]
             output_lines.append(data["info"])
+            # 排序 URL，保证输出稳定
             for url in sorted(list(data["urls"])):
                 output_lines.append(url)
                 
@@ -186,7 +174,7 @@ def main():
         with open(args.output, 'w', encoding='utf-8') as f:
             f.write(modified_m3u)
             
-        print(f"成功: {len(args.input)} 个 M3U 文件已合并，并写入到 '{args.output}'")
+        print(f"成功: {len(args.input)} 个 M3U 文件已合并、去重并按 Group-Title 排序，并写入到 '{args.output}'")
         
     except Exception as e:
         print(f"写入文件时发生错误: {e}", file=sys.stderr)
