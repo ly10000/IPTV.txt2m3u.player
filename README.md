@@ -17,6 +17,6 @@ https://gh-proxy.org/github.com/ioptu/IPTV.txt2m3u.player/raw/refs/heads/main/sh
 
 ## chrome扩展 
 ```
-[https://](https://gh-proxy.org/)github.com/ioptu/IPTV.txt2m3u.player/blob/main/chrome%20extension/Flv.m3u8.player.zip
+https://gh-proxy.org/github.com/ioptu/IPTV.txt2m3u.player/blob/main/chrome%20extension/Flv.m3u8.player.zip
 ```
 （Github文件加速，将GitHub链接转换为多区域加速链接，解决GitHub访问慢、下载失败等问题 ）
