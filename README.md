@@ -1,4 +1,4 @@
-## m3u
+## m3u直播源
 ```
 https://gh-proxy.net/github.com/ioptu/IPTV.txt2m3u.player/raw/refs/heads/main/huuc_ipv6.m3u
 ```
