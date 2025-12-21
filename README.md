@@ -23,7 +23,7 @@ https://gh-proxy.org/github.com/ioptu/IPTV.txt2m3u.player/blob/main/chrome%20ext
 
 ## 其他
 
-- [移动端播放软件APK](https://github.com/skysolf/iptv/blob/main/TiviMate%20%202.1.5%20-%20Premium%E4%BB%98%E8%B4%B9%E7%A0%B4%E8%A7%A3%E7%89%88.apk)
+- [移动端播放软件APK](https://github.com/skysolf/iptv/)
 
 
 
