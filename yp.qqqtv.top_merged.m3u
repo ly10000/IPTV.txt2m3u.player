@@ -79,6 +79,8 @@ http://yp.qqqtv.top/1/api.php?id=CCTV-17%E5%86%9C%E4%B8%9A%E5%86%9C%E6%9D%91&aut
 http://yp.qqqtv.top/1/api.php?id=CCTV-17&auth=666858
 http://yp.qqqtv.top/1/api.php?id=CCTV-17HD&auth=666858
 http://yp.qqqtv.top/bc/bc.php?id=CCTV-17+%E5%86%9C%E4%B8%9A%E5%86%9C%E6%9D%91&auth=66615415
+#EXTINF:-1 tvg-name="CCTV4K" tvg-logo="https://live.fanmingming.cn/tv/CCTV4K.png" group-title="🌐央视频道",CCTV4K
+http://yp.qqqtv.top/1/api.php?id=CCTV-4K%E8%B6%85%E9%AB%98%E6%B8%85&auth=666858
 #EXTINF:-1 tvg-name="CCTV8K" tvg-logo="https://live.fanmingming.cn/tv/CCTV8K.png" group-title="🌐央视频道",CCTV8K
 http://yp.qqqtv.top/1/api.php?id=CCTV-8K%E8%B6%85%E9%AB%98%E6%B8%85&auth=666858
 #EXTINF:-1 group-title="🌐央视频道",CCTV书画
@@ -109,8 +111,6 @@ http://yp.qqqtv.top/1/api.php?id=CCTV-%E7%AC%AC%E4%B8%80%E5%89%A7%E5%9C%BA&auth=
 http://yp.qqqtv.top/1/api.php?id=CCTV-%E9%A3%8E%E4%BA%91%E5%89%A7%E5%9C%BA&auth=666858
 #EXTINF:-1 group-title="🌐央视频道",CCTV怀旧剧场
 http://yp.qqqtv.top/1/api.php?id=CCTV-%E6%80%80%E6%97%A7%E5%89%A7%E5%9C%BA&auth=666858
-#EXTINF:-1 group-title="🌐央视频道",CCTV-
-http://yp.qqqtv.top/1/api.php?id=CCTV-4K%E8%B6%85%E9%AB%98%E6%B8%85&auth=666858
 #EXTINF:-1 group-title="🌐央视频道",CCTV-卫生健康
 http://yp.qqqtv.top/1/api.php?id=CCTV-%E5%8D%AB%E7%94%9F%E5%81%A5%E5%BA%B7&auth=666858
 #EXTINF:-1 tvg-name="北京卫视" tvg-logo="https://live.fanmingming.cn/tv/北京卫视.png" group-title="📡卫视频道",北京卫视
