@@ -17,6 +17,6 @@
 
 - [安装组策略模板（edge示例）](https://learn.microsoft.com/zh-cn/deployedge/configure-microsoft-edge)
 
-- [组策略模板 edge](https://aka.ms/EdgeEnterprise)
+- [下载组策略模板 edge](https://aka.ms/EdgeEnterprise)
 
-- [组策略模板 chrome](https://www.chromium.org/administrators/policy-templates/)
+- [下载组策略模板 chrome](https://www.chromium.org/administrators/policy-templates/)
