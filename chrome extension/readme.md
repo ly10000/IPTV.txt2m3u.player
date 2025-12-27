@@ -1,6 +1,6 @@
 
 - 打开"开发者模式"后，"加载已解压的扩展"即可。
-
+---
 
 ## .m3u8
 - chrome已经原生支持播放.m3u8的链接。即使是链接中不含.m3u8关键字的hls类型视频也能播放。这些链接的共性是响应头中都含有“content-type application/vnd.apple.mpegurl”字段（vnd.apple.mpegurl是hls的mime类型之一）。
