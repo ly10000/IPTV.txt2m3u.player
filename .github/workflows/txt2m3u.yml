@@ -33,6 +33,7 @@ jobs:
           python ./scripts/extract.py --input tv2.m3u --output tv2ys.m3u --eoru '央视,' 
           python ./scripts/extract.py --input tv2.m3u --output tv2ws.m3u --eoru '卫视,' 
           python ./scripts/m3u_merger.py -i tv2ys.m3u tv2ws.m3u -o tv2op_merged.m3u
+          python ./scripts/m3u_mergerng.py -i tv2op_merged.m3u -o tv2op_merged_ng.m3u
 
           
           ls -al
@@ -54,7 +55,7 @@ jobs:
         mv ../ipv6_merged.m3u ./ipv6_merged.m3u
         mv ../tv1op.m3u ./php.jdshipin.com.m3u
         mv ../tv1op_merged.m3u ./php.jdshipin.com_merged.m3u
-        mv ../tv2op_merged.m3u ./catvod_merged.m3u
+        mv ../tv2op_merged_ng.m3u ./catvod_merged.m3u
 
         
         git add .
