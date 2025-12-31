@@ -1,166 +1,151 @@
 import argparse
+import sys
 
 def _check_match(text, keyword_str):
     """
     辅助函数：检查文本是否包含指定关键字，支持 && 和 || 逻辑。
-    :param text: 要搜索的文本。
-    :param keyword_str: 要搜索的关键字字符串（可含 && 或 ||）。
-    :return: 如果匹配则返回 True，否则返回 False。
     """
-    if not keyword_str: # 如果关键字为空，则不匹配
+    if not keyword_str or not keyword_str.strip():
         return False
 
-    # 处理关键词中的引号，去除首尾可能存在的双引号
-    processed_keyword = keyword_str.strip('"')
+    # 处理关键词中的引号，去除首尾可能存在的双引号并清理空格
+    processed_keyword = keyword_str.strip().strip('"')
 
     if "&&" in processed_keyword:
-        # 逻辑与：所有子关键字都必须包含
-        sub_keywords = [k.strip() for k in processed_keyword.split("&&")]
+        sub_keywords = [k.strip() for k in processed_keyword.split("&&") if k.strip()]
         return all(k in text for k in sub_keywords)
     elif "||" in processed_keyword:
-        # 逻辑或：任一子关键字包含即可
-        sub_keywords = [k.strip() for k in processed_keyword.split("||")]
+        sub_keywords = [k.strip() for k in processed_keyword.split("||") if k.strip()]
         return any(k in text for k in sub_keywords)
     else:
-        # 简单匹配：只要包含关键字即可
         return processed_keyword in text
 
 def extract_keyword_lines(filepath, extinf_and_url_keywords=None, extinf_or_url_keywords=None):
     """
-    从M3U文件中提取包含指定关键字的记录。
-    此版本改进了M3U记录的识别，并支持在不同行类型中搜索。
-    同时，它会保留原始文件中匹配记录的顺序，并确保结果不重复。
-    EXTINF 行内容和 URL 行内容都一模一样，才会被认为是重复
-    :param filepath: 输入文件路径。
-    :param extinf_and_url_keywords: 逗号分隔的两个关键字，EXTINF行和URL行需同时包含对应关键字。
-    :param extinf_or_url_keywords: 逗号分隔的两个关键字，EXTINF行或URL行包含对应关键字。
-    :return: 包含匹配记录的列表。
+    高级 M3U 解析器：支持多行配置、URL 容错及去重。
     """
-    with open(filepath, 'r', encoding='utf-8') as file:
-        lines = file.readlines()
+    try:
+        with open(filepath, 'r', encoding='utf-8') as file:
+            # 过滤掉纯空行，并去除每行末尾换行符
+            lines = [line.strip() for line in file if line.strip()]
+    except Exception as e:
+        print(f"错误：无法读取文件 {filepath}。原因：{e}")
+        return []
 
-    # 使用列表存储匹配到的记录对 (EXTINF行, URL行)，以保留顺序
     ordered_record_pairs = []
-    # 使用集合辅助去重，存储已添加的记录对，提高查找效率
     seen_record_pairs = set()
 
-    # 解析组合关键字参数
+    # 解析参数逻辑
     kw1_and_kw2 = None
     if extinf_and_url_keywords:
         parts = [k.strip() for k in extinf_and_url_keywords.split(',')]
         if len(parts) == 2:
-            if not parts[0] and not parts[1]:
-                print("错误：--eandu 参数的两个关键字不能都为空。请提供有效的搜索关键字。")
-                return []
-            elif not parts[0]:
-                print(f"警告：您使用了 --eandu '{extinf_and_url_keywords}'。EXTINF行关键字为空。在此模式下，EXTINF行不会进行有效匹配，导致结果始终为空。如果您想仅在URL行搜索 '{parts[1]}'，请考虑使用 --eoru ',{parts[1]}'。")
-                return []
-            elif not parts[1]:
-                print(f"警告：您使用了 --eandu '{extinf_and_url_keywords}'。URL行关键字为空。在此模式下，URL行不会进行有效匹配，导致结果始终为空。如果您想仅在EXTINF行搜索 '{parts[0]}'，请考虑使用 --eoru '{parts[0]},'。")
+            if not parts[0] or not parts[1]:
+                print("错误：--eandu 参数的两个关键字不能为空。")
                 return []
             kw1_and_kw2 = (parts[0], parts[1])
         else:
-            print("错误：--eandu 参数需要两个用逗号分隔的关键字。例如：'Keyword1,Keyword2'。")
+            print("错误：--eandu 需要格式 'Keyword1,Keyword2'。")
             return []
 
     kw1_or_kw2 = None
     if extinf_or_url_keywords:
         parts = [k.strip() for k in extinf_or_url_keywords.split(',')]
         if len(parts) == 2:
-            if not parts[0] and not parts[1]:
-                print("错误：--eoru 参数的两个关键字不能都为空。请提供有效的搜索关键字。")
-                return []
-            elif not parts[0]:
-                print(f"提示：您使用了 --eoru '{extinf_or_url_keywords}'。EXTINF行关键字为空。这意味着将只在URL行中搜索 '{parts[1]}'。")
-            elif not parts[1]:
-                print(f"提示：您使用了 --eoru '{extinf_or_url_keywords}'。URL行关键字为空。这意味着将只在EXTINF行中搜索 '{parts[0]}'。")
             kw1_or_kw2 = (parts[0], parts[1])
         else:
-            print("错误：--eoru 参数需要两个用逗号分隔的关键字。例如：'Keyword1,Keyword2'。")
+            print("错误：--eoru 需要格式 'Keyword1,Keyword2'。")
             return []
 
     i = 0
     while i < len(lines):
-        current_line_stripped = lines[i].strip()
-
-        # 检查是否是M3U的描述信息行（通常以 #EXTINF 开头）
-        if current_line_stripped.startswith('#EXTINF'):
-            # 找到 #EXTINF 行后，尝试获取其下一行作为对应的 URL 行
-            if i + 1 < len(lines):
-                url_line_stripped = lines[i+1].strip()
-
+        # 寻找记录起始点
+        if lines[i].startswith('#EXTINF'):
+            current_extinf = lines[i]
+            current_sub_configs = []
+            current_url = None
+            
+            # 向下探测，寻找 URL
+            j = i + 1
+            while j < len(lines):
+                next_line = lines[j]
+                if next_line.startswith('#EXTINF'):
+                    # 异常情况：在找到 URL 前遇见了下一个标签，说明当前频道 URL 丢失
+                    break
+                elif next_line.startswith('#'):
+                    # 收集配置行（如 #EXTVLCOPT 或 #KODIPROP）
+                    current_sub_configs.append(next_line)
+                    j += 1
+                else:
+                    # 找到第一个非 '#' 开头的行，判定为 URL
+                    current_url = next_line
+                    break
+            
+            # 如果成功锁定了一组完整的 (EXTINF + URL)
+            if current_url:
                 matched = False
                 if kw1_and_kw2:
-                    # EXTINF 包含 kw1 且 URL 包含 kw2
-                    matched = _check_match(current_line_stripped, kw1_and_kw2[0]) and \
-                              _check_match(url_line_stripped, kw1_and_kw2[1])
+                    matched = _check_match(current_extinf, kw1_and_kw2[0]) and \
+                              _check_match(current_url, kw1_and_kw2[1])
                 elif kw1_or_kw2:
-                    # EXTINF 包含 kw1 或 URL 包含 kw2
-                    matched = _check_match(current_line_stripped, kw1_or_kw2[0]) or \
-                              _check_match(url_line_stripped, kw1_or_kw2[1])
+                    matched = _check_match(current_extinf, kw1_or_kw2[0]) or \
+                              _check_match(current_url, kw1_or_kw2[1])
 
                 if matched:
-                    # 如果匹配，且该记录对尚未被添加过
-                    current_pair = (current_line_stripped, url_line_stripped)
-                    if current_pair not in seen_record_pairs:
-                        ordered_record_pairs.append(current_pair)
-                        seen_record_pairs.add(current_pair)
-
-                i += 2  # 处理完 #EXTINF 和 URL 两行，跳到下一条记录的开始
+                    # 组合完整记录块
+                    record_block = [current_extinf] + current_sub_configs + [current_url]
+                    # 以 (EXTINF行, URL行) 作为唯一键进行去重
+                    record_key = (current_extinf, current_url)
+                    if record_key not in seen_record_pairs:
+                        ordered_record_pairs.append(record_block)
+                        seen_record_pairs.add(record_key)
+                
+                i = j + 1  # 成功处理，跳过已消耗的 URL 行
             else:
-                # 如果 #EXTINF 是文件的最后一行，没有对应的URL行，则跳过此行
-                # 这避免了访问 lines[i+1] 时可能出现的 IndexError
-                i += 1
+                # 丢失 URL 的频道，直接跳到下一个可能的位置
+                i = j
         else:
-            # 如果当前行不是 #EXTINF 开头，则认为它不是 M3U 记录的起始，直接跳过
-            # 我们只关注 #EXTINF 后面跟着 URL 的标准 M3U 格式
+            # 不是以 #EXTINF 开头的杂质行直接跳过
             i += 1
 
-    # 将有序且去重后的记录对转换回列表格式，每条记录包括 EXTINF行、URL行 和一个空行
+    # 展开结果，并在每个记录块后添加空行以保持美观
     result = []
-    for extinf_line, url_line in ordered_record_pairs:
-        result.append(extinf_line)
-        result.append(url_line)
-        result.append("") # 每条记录后添加一个空行，保持原有的输出格式
+    for block in ordered_record_pairs:
+        result.extend(block)
+        result.append("") 
 
     return result
 
 def parse_arguments():
-    """
-    解析命令行参数。
-    现在只支持 --eandu 和 --eoru 两种组合搜索模式。
-    这些参数是互斥的，且必须提供其中一个。
-    """
-    parser = argparse.ArgumentParser(description='从M3U文件中提取包含指定关键字的记录')
+    parser = argparse.ArgumentParser(description='从M3U文件中提取包含指定关键字的记录（支持多行配置和URL容错）')
     parser.add_argument('--input', required=True, help='输入M3U文件路径')
     parser.add_argument('--output', required=True, help='输出文件路径')
 
-    # 创建一个互斥组，用户只能选择其中一个关键字参数
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('--eandu', dest='extinf_and_url_keywords', help='EXTINF行包含Keyword1且URL行包含Keyword2（格式："Keyword1,Keyword2"）')
-    group.add_argument('--eoru', dest='extinf_or_url_keywords', help='EXTINF行包含Keyword1或URL行包含Keyword2（格式："Keyword1,Keyword2"）')
+    group.add_argument('--eandu', dest='extinf_and_url_keywords', help='AND模式："EXTINF关键词,URL关键词"')
+    group.add_argument('--eoru', dest='extinf_or_url_keywords', help='OR模式："EXTINF关键词,URL关键词"')
 
     return parser.parse_args()
 
 if __name__ == "__main__":
     args = parse_arguments()
 
-    # 根据用户提供的关键字参数调用 extract_keyword_lines
-    extracted_lines = []
-    search_keyword_display = ""
-
     if args.extinf_and_url_keywords:
         extracted_lines = extract_keyword_lines(args.input, extinf_and_url_keywords=args.extinf_and_url_keywords)
-        search_keyword_display = f"EXTINF和URL行组合搜索 '{args.extinf_and_url_keywords}'"
-    elif args.extinf_or_url_keywords:
+        mode_str = "EXTINF和URL组合(AND)"
+    else:
         extracted_lines = extract_keyword_lines(args.input, extinf_or_url_keywords=args.extinf_or_url_keywords)
-        search_keyword_display = f"EXTINF或URL行组合搜索 '{args.extinf_or_url_keywords}'"
+        mode_str = "EXTINF或URL组合(OR)"
 
-    # 将提取出的行写入输出文件
-    with open(args.output, 'w', encoding='utf-8') as f:
-        for line in extracted_lines:
-            f.write(line + '\n')
-
-    # 打印提取结果的汇总信息
-    # 由于每条记录包含 EXTINF 行、URL 行和空行，所以记录总数是列表长度除以 3
-    print(f"已提取 {len(extracted_lines)//3} 条包含 {search_keyword_display} 的记录到 {args.output}")
+    try:
+        with open(args.output, 'w', encoding='utf-8') as f:
+            for line in extracted_lines:
+                f.write(line + '\n')
+        
+        # 统计逻辑：由于 result 列表中每条记录以空行结尾，实际记录数计算如下
+        count = sum(1 for line in extracted_lines if line.startswith('#EXTINF'))
+        print(f"处理完成！成功提取 {count} 条记录。")
+        print(f"模式：{mode_str}")
+        print(f"结果已保存至：{args.output}")
+    except Exception as e:
+        print(f"写入文件失败：{e}")
