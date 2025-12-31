@@ -2,6 +2,7 @@ import re
 import argparse
 import sys
 import os
+#忽略频道组 临时使用
 
 # --- 辅助函数：提取 Group-Title ---
 def extract_group_title(info_line):
