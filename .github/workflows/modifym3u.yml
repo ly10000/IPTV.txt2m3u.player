@@ -15,42 +15,29 @@ jobs:
     - name: fetch and modify
       run: |
           pip install requests 
-          
-          ##wget https://smart.pendy.dpdns.org/m3u/merged_judy.m3u -O 1raw.m3u
-          ##python ./scripts/extract.py --input 1raw.m3u --output 1op.m3u --eoru '咪咕视频,'
-          ##python ./scripts/deduplicate.py -i 1op.m3u -o 1output.m3u
-          ###python ./scripts/rdfinurl.py --input 1output.m3u --output 1final.m3u --retries 2
-          
-          ####wget https://github.com/suxuang/myIPTV/raw/refs/heads/main/ipv4.m3u -O 2raw.m3u
-          ##wget https://github.com/suxuang/myIPTV/raw/refs/heads/main/ipv4a.m3u -O 2raw.m3u
-          ##python ./scripts/extract.py --input 2raw.m3u --output 2op.m3u --eoru '全网通,全网通'
-          ##python ./scripts/deduplicate.py -i 2op.m3u -o 2output.m3u
-          ###python ./scripts/rdfinurl.py --input 2output.m3u --output 2final.m3u --retries 2
-          
 
-          python ./scripts/extract.py --input t2m_output.m3u --output t1op.m3u --eoru ',lnott'
+
+          wget https://github.com/5iClub/migu_video/raw/refs/heads/main/migu.txt -O migu.m3u  -t 2 --waitretry=5
+          python ./scripts/m3u_mergerng.py -i migu.m3u -o mg_merged.m3u
+          
+          wget https://raw.githubusercontent.com/lwzlinyi/ziyong/refs/heads/main/live2.m3u -O live2.m3u  -t 2 --waitretry=5
+          python ./scripts/extract.py --input live2.m3u --output t1op.m3u --eoru ',huuc'
           python ./scripts/deduplicate.py -i t1op.m3u -o t1output.m3u
 
-          python ./scripts/extract.py --input t2m_output.m3u --output t2op.m3u --eoru ',huuc'
+          wget http://www.lyyytv.cn/yt/zhibo/1.txt -O 1.txt -t 2 --waitretry=5
+          node ./scripts/txt2m3u.js -i 1.txt -o 1.m3u
+          python ./scripts/extract.py --input 1.m3u --output t2op.m3u --eoru ',lnott'
           python ./scripts/deduplicate.py -i t2op.m3u -o t2output.m3u
 
-          wget https://raw.githubusercontent.com/lwzlinyi/ziyong/refs/heads/main/live2.m3u -O live2.m3u  -t 2 --waitretry=5
-          python ./scripts/extract.py --input live2.m3u --output t2op.m3u --eoru ',huuc'
-          python ./scripts/deduplicate.py -i t2op.m3u -o t2output.m3u
+          wget https://github.com/xiaoran29/core/raw/refs/heads/main/output/lite.m3u -O lite.m3u  -t 2 --waitretry=5
+          python ./scripts/extract.py --input lite.m3u --output t3op.m3u --eoru ',qqqtv'        
+          python ./scripts/m3u_merger.py -i t3op.m3u -o t3op_merged.m3u
+          python ./scripts/url_sorter.py -i t3op_merged.m3u -o t3op_ms.m3u -k 'HD&auth=666858,auth=66615415'
 
-          ###wget https://github.com/gitgordon85/IPTV-Check/raw/refs/heads/master/output/ipv4/result.m3u -O tv1.m3u  -t 2 --waitretry=5
-          ##wget https://github.com/xiaoran29/update/raw/refs/heads/main/output/lite.m3u -O tv1.m3u  -t 2 --waitretry=5
-          wget https://github.com/xiaoran29/core/raw/refs/heads/main/output/lite.m3u -O tv1.m3u  -t 2 --waitretry=5
-          python ./scripts/extract.py --input tv1.m3u --output tv1op.m3u --eoru ',qqqtv'        
-          python ./scripts/m3u_merger.py -i tv1op.m3u -o tv1op_merged.m3u
-          python ./scripts/url_sorter.py -i tv1op_merged.m3u -o tv1op_ms.m3u -k 'HD&auth=666858,auth=66615415'
-
-          wget https://github.com/5iClub/migu_video/raw/refs/heads/main/migu.txt -O mg.m3u  -t 2 --waitretry=5
-          python ./scripts/m3u_mergerng.py -i mg.m3u -o mg_merged.m3u
-
-          
-
-          python ./scripts/m3u_merger.py -i t2m_output.m3u -o t2merged.m3u
+          wget https://github.com/hainantv/kk/raw/refs/heads/main/hainan.txt -O hainan.txt  -t 2 --waitretry=5
+          node ./scripts/txt2m3u.js -i hainan.txt -o t4op.m3u
+          python ./scripts/extract.py --input t4op.m3u --output tv4output.m3u --eoru ',php.jdshipin.com/TVOD/iptv.php?id=' 
+          python ./scripts/m3u_merger.py -i tv4output.m3u -o tv4output_merged.m3u
 
           
     - name: CommitAndPush
@@ -65,16 +52,14 @@ jobs:
         cd "$REPO_NAME" || exit 1  # 强制失败时退出
 
         # 后续操作...
-        #mv ../1output.m3u ./migu.m3u
-        ##mv ../1final.m3u ./migu_finalurl.m3u
-        #mv ../2output.m3u ./qwt.m3u
-        ##mv ../2final.m3u ./qwt_finalurl.m3u
-        #mv ../t2merged.m3u ./t2m_output_merged.m3u
-        mv ../t1output.m3u ./sh.lnott.top.m3u
-        mv ../t2output.m3u ./huuc_ipv6.m3u
         mv ../mg_merged.m3u ./migu_merged.m3u
-        mv ../tv1op.m3u ./yp.qqqtv.top.m3u
-        mv ../tv1op_ms.m3u  ./yp.qqqtv.top_merged.m3u
+        mv ../t1output.m3u ./huuc_ipv6.m3u
+        mv ../t2output.m3u ./sh.lnott.top.m3u
+        mv ../t3op.m3u ./yp.qqqtv.top.m3u
+        mv ../t3op_ms.m3u  ./yp.qqqtv.top_merged.m3u
+        mv ../tv4output.m3u ./php.jdshipin.com.m3u
+        mv ../tv4output_merged.m3u ./php.jdshipin.com_merged.m3u
+
 
         git add .
         if git diff --cached --quiet; then
