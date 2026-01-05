@@ -1,12 +1,4 @@
 ## m3u直播源
-```
-https://gh.sixyin.com/github.com/ioptu/IPTV.txt2m3u.player/raw/refs/heads/main/huuc_ipv6.m3u
-```
-```
-https://gh.sixyin.com/github.com/ioptu/IPTV.txt2m3u.player/raw/refs/heads/main/sh.lnott.top.m3u
-```
-
-或者 
 
 ```
 https://gh-proxy.org/github.com/ioptu/IPTV.txt2m3u.player/raw/refs/heads/main/huuc_ipv6.m3u
@@ -14,7 +6,15 @@ https://gh-proxy.org/github.com/ioptu/IPTV.txt2m3u.player/raw/refs/heads/main/hu
 ```
 https://gh-proxy.org/github.com/ioptu/IPTV.txt2m3u.player/raw/refs/heads/main/sh.lnott.top.m3u
 ```
-
+```
+https://gh-proxy.org/github.com/ioptu/IPTV.txt2m3u.player/raw/refs/heads/main/migu_merged.m3u
+```
+```
+https://gh-proxy.org/github.com/ioptu/IPTV.txt2m3u.player/raw/refs/heads/main/catvod.com_merged.m3u
+```
+```
+https://gh-proxy.org/github.com/ioptu/IPTV.txt2m3u.player/raw/refs/heads/main/yp.qqqtv.top_merged.m3u
+```
 ## chrome扩展 
 ```
 https://gh-proxy.org/github.com/ioptu/IPTV.txt2m3u.player/blob/main/chrome%20extension/Flv.m3u8.player.zip
