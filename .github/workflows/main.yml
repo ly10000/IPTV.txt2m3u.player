@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write  # 允许推送代码
+    env:
+      ONLY_UPDATE_MIGU: true
     steps: 
     - name: Checkout code
       uses: actions/checkout@v5
@@ -18,54 +20,53 @@ jobs:
       run: |
           pip install requests 
 
-          #wget https://github.com/ls125781003/tvboxtg/raw/refs/heads/main/%E7%8E%8B%E4%BA%8C%E5%B0%8F/lives/%E5%86%B0%E8%8C%B6.txt -O bc.m3u  -t 2 --waitretry=5
-          #python ./scripts/extract.py --input bc.m3u --output test.m3u --eandu '上海,sh'
-          #python ./scripts/extract.py --input bc.m3u --output test-n.m3u --eandu '上海,sh' -n
-
-          #wget https://github.com/badboy518714/migu_video/raw/refs/heads/main/migu.txt -O migu.m3u  -t 2 --waitretry=5
+          # 下载并处理migu文件
           wget https://github.com/ioptu/migu_video/raw/refs/heads/main/migu.txt -O migu.m3u  -t 2 --waitretry=5
           python ./scripts/m3u_mergerng.py -i migu.m3u -o mg_m.m3u
           python ./scripts/m3u_merger.py -i mg_m.m3u -o mg_merged.m3u
           
-          wget https://raw.githubusercontent.com/lwzlinyi/ziyong/refs/heads/main/live2.m3u -O live2.m3u  -t 2 --waitretry=5
-          python ./scripts/extract.py --input live2.m3u --output t1op.m3u --eoru ',huuc' -n
-          python ./scripts/deduplicate.py -i t1op.m3u -o t1output.m3u
+          # 检查是否只更新migu文件
+          if [ "$ONLY_UPDATE_MIGU" = "true" ]; then
+            echo "只更新migu_merged.m3u文件，跳过其他处理"
+          else
+            echo "执行完整的更新流程"
+            
+            wget https://raw.githubusercontent.com/lwzlinyi/ziyong/refs/heads/main/live2.m3u -O live2.m3u  -t 2 --waitretry=5
+            python ./scripts/extract.py --input live2.m3u --output t1op.m3u --eoru ',huuc' -n
+            python ./scripts/deduplicate.py -i t1op.m3u -o t1output.m3u
 
-          wget http://www.lyyytv.cn/yt/zhibo/1.txt -O 1.txt -t 2 --waitretry=5
-          node ./scripts/txt2m3u.js -i 1.txt -o 1.m3u
-          python ./scripts/extract.py --input 1.m3u --output t2op.m3u --eoru ',lnott' -n
-          python ./scripts/deduplicate.py -i t2op.m3u -o t2output.m3u
+            wget http://www.lyyytv.cn/yt/zhibo/1.txt -O 1.txt -t 2 --waitretry=5
+            node ./scripts/txt2m3u.js -i 1.txt -o 1.m3u
+            python ./scripts/extract.py --input 1.m3u --output t2op.m3u --eoru ',lnott' -n
+            python ./scripts/deduplicate.py -i t2op.m3u -o t2output.m3u
 
-          #wget https://github.com/xiaoran29/core/raw/refs/heads/main/output/lite.m3u -O lite.m3u  -t 2 --waitretry=5
-          #python ./scripts/extract.py --input lite.m3u --output t3op.m3u --eoru ',qqqtv' -n
-          #python ./scripts/m3u_merger.py -i t3op.m3u -o t3op_merged.m3u
-          #python ./scripts/url_sorter.py -i t3op_merged.m3u -o t3op_ms.m3u -k 'HD&auth=666858,auth=66615415'
+            #wget https://github.com/xiaoran29/core/raw/refs/heads/main/output/lite.m3u -O lite.m3u  -t 2 --waitretry=5
+            #python ./scripts/extract.py --input lite.m3u --output t3op.m3u --eoru ',qqqtv' -n
+            #python ./scripts/m3u_merger.py -i t3op.m3u -o t3op_merged.m3u
+            #python ./scripts/url_sorter.py -i t3op_merged.m3u -o t3op_ms.m3u -k 'HD&auth=666858,auth=66615415'
 
-          #临时措施，目标直播源修正了频道名错误后应恢复使用以上注释代码块
-          #wget https://github.com/xiaoran29/core/raw/refs/heads/main/output/lite.m3u -O lite.m3u  -t 2 --waitretry=5
-          #python ./scripts/extract.py --input lite.m3u --output t3o.m3u --eoru ',qqqtv' -n
-          #python ./scripts/url_sorter.py -i t3o.m3u -o t3op.m3u -k "CCTV-5%2B" -ch "CCTV5" -rn "CCTV5+" 
-          #python ./scripts/m3u_merger.py -i t3op.m3u -o t3op_merged.m3u
-          #python ./scripts/url_sorter.py -i t3op_merged.m3u -o t3op_ms.m3u -k 'HD&auth=666858,auth=66615415'
-          #目标直播源大量缺失qqqtv频道，恢复旧文件 暂停自动更新           
-          wget https://github.com/ioptu/IPTV.txt2m3u.player/raw/dcf291331d4e49d18d519e386d11c4278c76ccf2/yp.qqqtv.top.m3u -O qtv.m3u  -t 2 --waitretry=5
-          python ./scripts/url_sorter.py -i qtv.m3u -o qtvop.m3u -k "CCTV-5%2B" -ch "CCTV5" -rn "CCTV5+" 
-          python ./scripts/m3u_merger.py -i qtvop.m3u -o qtvop_merged.m3u
-          python ./scripts/url_sorter.py -i qtvop_merged.m3u -o qtvop_ms.m3u -k 'HD&auth=666858,auth=66615415'
-          
-          wget https://github.com/xiaoran29/core/raw/refs/heads/main/output/lite.m3u -O lite.m3u  -t 2 --waitretry=5
-          python ./scripts/extract.py --input lite.m3u --output t3op2.m3u --eoru ',catvod.com' -n 
-          python ./scripts/m3u_merger.py -i t3op2.m3u -o t3op2_merged.m3u
-          python ./scripts/url_sorter.py -i t3op2_merged.m3u -o t3op2_ms.m3u -k 'CCTV-' -r
+            #临时措施，目标直播源修正了频道名错误后应恢复使用以上注释代码块
+            #wget https://github.com/xiaoran29/core/raw/refs/heads/main/output/lite.m3u -O lite.m3u  -t 2 --waitretry=5
+            #python ./scripts/extract.py --input lite.m3u --output t3o.m3u --eoru ',qqqtv' -n
+            #python ./scripts/url_sorter.py -i t3o.m3u -o t3op.m3u -k "CCTV-5%2B" -ch "CCTV5" -rn "CCTV5+" 
+            #python ./scripts/m3u_merger.py -i t3op.m3u -o t3op_merged.m3u
+            #python ./scripts/url_sorter.py -i t3op_merged.m3u -o t3op_ms.m3u -k 'HD&auth=666858,auth=66615415'
+            #目标直播源大量缺失qqqtv频道，恢复旧文件 暂停上游更新     
+            wget https://github.com/ioptu/IPTV.txt2m3u.player/raw/dcf291331d4e49d18d519e386d11c4278c76ccf2/yp.qqqtv.top.m3u -O qtv.m3u  -t 2 --waitretry=5
+            python ./scripts/url_sorter.py -i qtv.m3u -o qtvop.m3u -k "CCTV-5%2B" -ch "CCTV5" -rn "CCTV5+" 
+            python ./scripts/m3u_merger.py -i qtvop.m3u -o qtvop_merged.m3u
+            python ./scripts/url_sorter.py -i qtvop_merged.m3u -o qtvop_ms.m3u -k 'HD&auth=666858,auth=66615415'
+            
+            wget https://github.com/xiaoran29/core/raw/refs/heads/main/output/lite.m3u -O lite.m3u  -t 2 --waitretry=5
+            python ./scripts/extract.py --input lite.m3u --output t3op2.m3u --eoru ',catvod.com' -n 
+            python ./scripts/m3u_merger.py -i t3op2.m3u -o t3op2_merged.m3u
+            python ./scripts/url_sorter.py -i t3op2_merged.m3u -o t3op2_ms.m3u -k 'CCTV-' -r
 
-          wget https://github.com/hainantv/kk/raw/refs/heads/main/hainan.txt -O hainan.txt  -t 2 --waitretry=5
-          node ./scripts/txt2m3u.js -i hainan.txt -o t4op.m3u
-          python ./scripts/extract.py --input t4op.m3u --output tv4output.m3u --eoru ',php.jdshipin.com/TVOD/iptv.php?id=' -n
-          python ./scripts/m3u_merger.py -i tv4output.m3u -o tv4output_merged.m3u
-
-
- 
-
+            wget https://github.com/hainantv/kk/raw/refs/heads/main/hainan.txt -O hainan.txt  -t 2 --waitretry=5
+            node ./scripts/txt2m3u.js -i hainan.txt -o t4op.m3u
+            python ./scripts/extract.py --input t4op.m3u --output tv4output.m3u --eoru ',php.jdshipin.com/TVOD/iptv.php?id=' -n
+            python ./scripts/m3u_merger.py -i tv4output.m3u -o tv4output_merged.m3u
+          fi
           
     - name: CommitAndPush
       run: |
@@ -79,22 +80,24 @@ jobs:
         cd "$REPO_NAME" || exit 1  # 强制失败时退出
 
         # 后续操作...
-        #mv ../test.m3u ./test.m3u
-        #mv ../test-n.m3u ./test-n.m3u
-        mv ../qtvop.m3u ./yp.qqqtv.top.m3u
-        mv ../qtvop_ms.m3u ./yp.qqqtv.top_merged.m3u
         
+        # 移动migu文件（总是执行）
         mv ../mg_merged.m3u ./migu_merged.m3u
-        mv ../t1output.m3u ./huuc_ipv6.m3u
-        mv ../t2output.m3u ./sh.lnott.top.m3u
-        # mv ../t3op.m3u ./yp.qqqtv.top.m3u
-        # mv ../t3op_merged.m3u  ./yp.qqqtv.top_merged.m3u
-        mv ../tv4output.m3u ./php.jdshipin.com.m3u
-        mv ../tv4output_merged.m3u ./php.jdshipin.com_merged.m3u
-        mv ../t3op2.m3u ./catvod.com.m3u
-        mv ../t3op2_ms.m3u ./catvod.com_merged.m3u
-
-
+        
+        # 检查是否只更新migu文件
+        if [ "$ONLY_UPDATE_MIGU" != "true" ]; then
+          # 移动其他文件（完整更新时执行）
+          # mv ../t3op.m3u ./yp.qqqtv.top.m3u
+          # mv ../t3op_merged.m3u  ./yp.qqqtv.top_merged.m3u
+          mv ../qtvop.m3u ./yp.qqqtv.top.m3u
+          mv ../qtvop_ms.m3u ./yp.qqqtv.top_merged.m3u
+          mv ../t1output.m3u ./huuc_ipv6.m3u
+          mv ../t2output.m3u ./sh.lnott.top.m3u
+          mv ../tv4output.m3u ./php.jdshipin.com.m3u
+          mv ../tv4output_merged.m3u ./php.jdshipin.com_merged.m3u
+          mv ../t3op2.m3u ./catvod.com.m3u
+          mv ../t3op2_ms.m3u ./catvod.com_merged.m3u
+        fi
 
         git add .
         if git diff --cached --quiet; then
