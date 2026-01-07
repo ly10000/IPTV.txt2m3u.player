@@ -51,7 +51,7 @@ jobs:
             python ./scripts/url_sorter.py -i t3o.m3u -o t3op.m3u -k "CCTV-5%2B" -ch "CCTV5" -rn "CCTV5+" 
             python ./scripts/m3u_merger.py -i t3op.m3u -o t3op_merged.m3u
             python ./scripts/url_sorter.py -i t3op_merged.m3u -o t3op_ms.m3u -k 'HD&auth=666858,auth=66615415'
-            #目标直播源大量缺失qqqtv频道，恢复旧文件 暂停上游更新     
+            #目标直播源大量缺失qqqtv频道，恢复旧文件 暂停上游更新  #已备份到backup目录，保持跟随上游更新   
             #wget https://github.com/ioptu/IPTV.txt2m3u.player/raw/dcf291331d4e49d18d519e386d11c4278c76ccf2/yp.qqqtv.top.m3u -O qtv.m3u  -t 2 --waitretry=5
             #python ./scripts/url_sorter.py -i qtv.m3u -o qtvop.m3u -k "CCTV-5%2B" -ch "CCTV5" -rn "CCTV5+" 
             #python ./scripts/m3u_merger.py -i qtvop.m3u -o qtvop_merged.m3u
