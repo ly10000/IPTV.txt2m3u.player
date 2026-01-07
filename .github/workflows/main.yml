@@ -82,7 +82,7 @@ jobs:
         #mv ../test.m3u ./test.m3u
         #mv ../test-n.m3u ./test-n.m3u
         mv ../qtvop.m3u ./yp.qqqtv.top.m3u
-        mv ../qtv_ms.m3u ./yp.qqqtv.top_merged.m3u
+        mv ../qtvop_ms.m3u ./yp.qqqtv.top_merged.m3u
         
         mv ../mg_merged.m3u ./migu_merged.m3u
         mv ../t1output.m3u ./huuc_ipv6.m3u
