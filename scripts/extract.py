@@ -20,10 +20,12 @@ def _check_match(text, keyword_str):
     else:
         return processed_keyword in text
 
-def extract_keyword_lines(filepath, extinf_and_url_keywords=None, extinf_or_url_keywords=None, no_config=False):
+def extract_keyword_lines(filepath, extinf_and_url_keywords=None, extinf_or_url_keywords=None, 
+                          no_config=False, remove_mode=False):
     """
     高级 M3U 解析器：支持多行配置、URL 容错及去重。
     :param no_config: 如果为 True，则丢弃 #EXTVLCOPT 等中间配置行。
+    :param remove_mode: 如果为 True，则删除匹配的记录，保留不匹配的记录。
     """
     try:
         with open(filepath, 'r', encoding='utf-8') as file:
@@ -92,24 +94,45 @@ def extract_keyword_lines(filepath, extinf_and_url_keywords=None, extinf_or_url_
                     matched = _check_match(current_extinf, kw1_or_kw2[0]) or \
                               _check_match(current_url, kw1_or_kw2[1])
 
-                if matched:
-                    # 根据 no_config 参数决定是否包含中间行
-                    if no_config:
-                        record_block = [current_extinf, current_url]
-                    else:
-                        record_block = [current_extinf] + current_sub_configs + [current_url]
-                    
-                    # 以 (EXTINF行, URL行) 作为唯一键进行去重
-                    record_key = (current_extinf, current_url)
-                    if record_key not in seen_record_pairs:
-                        ordered_record_pairs.append(record_block)
-                        seen_record_pairs.add(record_key)
+                # 根据 remove_mode 决定处理逻辑
+                if remove_mode:
+                    # 删除模式：只保留不匹配的记录
+                    if not matched:
+                        # 根据 no_config 参数决定是否包含中间行
+                        if no_config:
+                            record_block = [current_extinf, current_url]
+                        else:
+                            record_block = [current_extinf] + current_sub_configs + [current_url]
+                        
+                        # 去重逻辑
+                        record_key = (current_extinf, current_url)
+                        if record_key not in seen_record_pairs:
+                            ordered_record_pairs.append(record_block)
+                            seen_record_pairs.add(record_key)
+                else:
+                    # 原始模式：只保留匹配的记录
+                    if matched:
+                        # 根据 no_config 参数决定是否包含中间行
+                        if no_config:
+                            record_block = [current_extinf, current_url]
+                        else:
+                            record_block = [current_extinf] + current_sub_configs + [current_url]
+                        
+                        # 去重逻辑
+                        record_key = (current_extinf, current_url)
+                        if record_key not in seen_record_pairs:
+                            ordered_record_pairs.append(record_block)
+                            seen_record_pairs.add(record_key)
                 
                 i = j + 1  # 移动到 URL 之后的一行
             else:
                 # 丢失 URL 的频道，直接跳到下一个起始点
                 i = j
         else:
+            # 处理文件开头的非EXTINF行（如#EXTM3U等头部信息）
+            # 在删除模式下，我们保留这些行
+            if remove_mode:
+                ordered_record_pairs.append([lines[i]])
             i += 1
 
     # 展开结果，并在每个记录块后添加空行
@@ -118,13 +141,18 @@ def extract_keyword_lines(filepath, extinf_and_url_keywords=None, extinf_or_url_
         result.extend(block)
         result.append("") 
 
+    # 移除最后一个空行（如果有）
+    if result and result[-1] == "":
+        result.pop()
+    
     return result
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description='从M3U文件中提取包含指定关键字的记录')
+    parser = argparse.ArgumentParser(description='从M3U文件中提取或删除包含指定关键字的记录')
     parser.add_argument('--input', required=True, help='输入M3U文件路径')
     parser.add_argument('--output', required=True, help='输出文件路径')
     parser.add_argument('-n', action='store_true', dest='no_config', help='只保留EXTINF和URL行，丢弃中间配置行')
+    parser.add_argument('-r', action='store_true', dest='remove_mode', help='删除模式：删除匹配的记录，保留不匹配的记录')
 
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('--eandu', dest='extinf_and_url_keywords', help='AND模式："EXTINF关键词,URL关键词"')
@@ -140,16 +168,24 @@ if __name__ == "__main__":
         extracted_lines = extract_keyword_lines(
             args.input, 
             extinf_and_url_keywords=args.extinf_and_url_keywords,
-            no_config=args.no_config
+            no_config=args.no_config,
+            remove_mode=args.remove_mode
         )
-        mode_str = "EXTINF和URL组合(AND)"
+        if args.remove_mode:
+            mode_str = "删除EXTINF和URL均匹配(AND)的记录"
+        else:
+            mode_str = "提取EXTINF和URL均匹配(AND)的记录"
     else:
         extracted_lines = extract_keyword_lines(
             args.input, 
             extinf_or_url_keywords=args.extinf_or_url_keywords,
-            no_config=args.no_config
+            no_config=args.no_config,
+            remove_mode=args.remove_mode
         )
-        mode_str = "EXTINF或URL组合(OR)"
+        if args.remove_mode:
+            mode_str = "删除EXTINF或URL匹配(OR)的记录"
+        else:
+            mode_str = "提取EXTINF或URL匹配(OR)的记录"
 
     try:
         with open(args.output, 'w', encoding='utf-8') as f:
@@ -157,7 +193,16 @@ if __name__ == "__main__":
                 f.write(line + '\n')
         
         count = sum(1 for line in extracted_lines if line.startswith('#EXTINF'))
-        print(f"处理完成！成功提取 {count} 条记录。")
+        
+        if args.remove_mode:
+            print(f"处理完成！成功保留 {count} 条记录。")
+            original_count = sum(1 for line in open(args.input, 'r', encoding='utf-8') 
+                               if line.strip().startswith('#EXTINF'))
+            deleted_count = original_count - count
+            print(f"删除了 {deleted_count} 条匹配的记录。")
+        else:
+            print(f"处理完成！成功提取 {count} 条记录。")
+        
         if args.no_config:
             print("提示：已开启 -n 模式，丢弃了所有中间配置行。")
         print(f"模式：{mode_str}")
