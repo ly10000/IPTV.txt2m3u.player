@@ -1,3 +1,4 @@
+#EXTM3U x-tvg-url="https://gh-proxy.org/raw.githubusercontent.com/fanmingming/live/refs/heads/main/e.xml"
 #EXTINF:-1 tvg-name="CCTV1" group-title="央视",CCTV1
 https://iptv.catvod.com/live.php?id=CCTV1
 http://iptv.huuc.edu.cn/hls/cctv1hd.m3u8
