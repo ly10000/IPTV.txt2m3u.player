@@ -3,7 +3,7 @@ import os
 import tempfile
 import shutil
 
-def deduplicate_m3u_with_multiple_urls(filepath):
+def deduplicate_m3u(filepath):
     """
     对M3U文件进行去重处理（基于频道名称）
     兼容多个URL
