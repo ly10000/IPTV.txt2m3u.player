@@ -3,37 +3,44 @@ import os
 import tempfile
 import shutil
 
-def deduplicate_m3u(filepath):
+def deduplicate_m3u_with_multiple_urls(filepath):
     """
     对M3U文件进行去重处理（基于频道名称）
-    :param filepath: 输入文件路径
-    :return: 去重后的条目列表
+    兼容多个URL
     """
     with open(filepath, 'r', encoding='utf-8') as f:
         lines = [line.strip() for line in f if line.strip()]
     
     seen = set()
     deduped = []
-
+    
     i = 0
-    while i < len(lines) - 1:
+    while i < len(lines):
         if lines[i].startswith("#EXTINF"):
             extinf_line = lines[i]
-            url_line = lines[i + 1]
-            if ',' in extinf_line:
-                channel_name = extinf_line.split(',', 1)[1]
-                if channel_name not in seen:
-                    seen.add(channel_name)
-                    deduped.append(extinf_line)
-                    deduped.append(url_line)
-                    deduped.append("")  # 空行分隔
-            i += 2
+            channel_name = extinf_line.split(',', 1)[1] if ',' in extinf_line else ""
+            
+            if channel_name not in seen:
+                seen.add(channel_name)
+                deduped.append(extinf_line)
+                
+                # 添加直到下一个EXTINF或文件结束的所有行
+                i += 1
+                while i < len(lines) and not lines[i].startswith("#EXTINF"):
+                    deduped.append(lines[i])
+                    i += 1
+                deduped.append("")  # 空行分隔
+            else:
+                # 跳过重复频道
+                i += 1
+                while i < len(lines) and not lines[i].startswith("#EXTINF"):
+                    i += 1
         else:
-            # 保留非EXTINF行（如头部信息）
+            # 保留文件头部和其他注释
             deduped.append(lines[i])
             deduped.append("")
             i += 1
-
+    
     return deduped
 
 def safe_write_output(data, input_path, output_path, add_header=True):
