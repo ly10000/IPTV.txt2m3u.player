@@ -21,11 +21,11 @@ https://gh-proxy.org/github.com/ioptu/IPTV.txt2m3u.player/raw/refs/heads/main/ip
 ```
 
 > [源备份](https://github.com/ioptu/IPTV.txt2m3u.player/blob/main/backup) 
-## Chrome扩展 
+## Chrome扩展程序 
 ```
 https://gh-proxy.org/github.com/ioptu/IPTV.txt2m3u.player/raw/refs/heads/main/chrome%20extension/Flv.m3u8.player.zip
 ```
 >
-> [扩展简介](https://github.com/ioptu/IPTV.txt2m3u.player/blob/main/chrome%20extension)
+> [扩展程序简介](https://github.com/ioptu/IPTV.txt2m3u.player/blob/main/chrome%20extension)
 >
 
