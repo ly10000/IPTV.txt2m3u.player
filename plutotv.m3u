@@ -1,3 +1,12 @@
+#EXTINF:-1 tvg-id="48Hours.us@CA" tvg-logo="https://images.pluto.tv/channels/6176f39e709f160007ec61c3/colorLogoPNG.png" group-title="Series",48 Hours
+https://jmp2.uk/plu-62e925bc68d18a00077bb990.m3u8
+
+#EXTINF:-1 tvg-id="48Hours.us@UK" tvg-logo="https://images.pluto.tv/channels/6176f39e709f160007ec61c3/colorLogoPNG.png" group-title="Series",48 Hours
+https://jmp2.uk/plu-6299e5afdd5833000727e795.m3u8
+
+#EXTINF:-1 tvg-id="48Hours.us@US" tvg-logo="https://images.pluto.tv/channels/6176f39e709f160007ec61c3/colorLogoPNG.png" group-title="Series",48 Hours
+https://dai.google.com/linear/hls/event/JUr94WL2QAiVpGNHY5n5dA/master.m3u8
+
 #EXTINF:-1 tvg-id="Avatar.us@Germany" tvg-logo="https://images.pluto.tv/channels/600adbdf8c554e00072125c9/colorLogoPNG.png" group-title="Kids",Avatar
 https://jmp2.uk/plu-600adbdf8c554e00072125c9.m3u8
 
@@ -6,9 +15,6 @@ https://jmp2.uk/plu-656df599c0fc8800089c75ab.m3u8
 
 #EXTINF:-1 tvg-id="BlueBloods.us@SD" tvg-logo="https://images.pluto.tv/channels/61b3b8c645b45d0007a9bb8d/colorLogoSVG.svg" group-title="Series",Blue Bloods
 https://jmp2.uk/plu-61b3b8c645b45d0007a9bb8d.m3u8
-
-#EXTINF:-1 tvg-id="HauntTV.us@SD" tvg-logo="https://images.pluto.tv/channels/63934c218ef524000757b122/colorLogoPNG.png" group-title="Entertainment",Haunt TV (1080p)
-https://amg01446-blueantmediacan-haunttvaussam-samsungau-vcnai.amagi.tv/playlist/amg01446-blueantmediacan-haunttvaussam-samsungau/playlist.m3u8
 
 #EXTINF:-1 tvg-id="MostHaunted.us@UK" tvg-logo="https://images.pluto.tv/channels/66d722d31878f200081c2c64/colorLogoPNG.png" group-title="Series",Most Haunted
 https://jmp2.uk/plu-6081648340382e0007f73d45.m3u8
