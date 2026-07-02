@@ -1078,6 +1078,9 @@ https://jmp2.uk/plu-5db6a697d5f34a000934cd13.m3u8
 #EXTINF:-1 tvg-id="MTVCatfishTVShow.de@ES" tvg-logo="https://images.pluto.tv/channels/6093f9ed2c75660007322bb7/colorLogoPNG_1750862971704.png" group-title="Entertainment",MTV Catfish TV Show (720p)
 https://jmp2.uk/plu-5f1ab3c7778230000735cf41.m3u8
 
+#EXTINF:-1 tvg-id="MTVClassic.us@East" tvg-logo="https://images.pluto.tv/channels/66a01dcb8561260008b0a41d/colorLogoPNG.png" group-title="Music",MTV Classic (720p)
+http://206.212.244.63/117/index.m3u8
+
 #EXTINF:-1 tvg-id="MTVCLASSICS.de@FR" tvg-logo="https://images.pluto.tv/channels/5f92b56a367e170007cd43f4/colorLogoPNG.png" group-title="Entertainment",MTV CLASSICS
 https://jmp2.uk/plu-5f92b56a367e170007cd43f4.m3u8
 

@@ -1681,6 +1681,8 @@ https://jmp2.uk/plu-5d14fd1a252d35decbc4080c.m3u8
 https://jmp2.uk/plu-6047fabfce6e8e00070bcc9f.m3u8
 https://jmp2.uk/plu-6047fbdbbb776a0007e7f2ff.m3u8
 https://jmp2.uk/plu-65410176770cf1000866bf31.m3u8
+#EXTINF:-1 tvg-id="MTVClassic.us@East" tvg-logo="https://images.pluto.tv/channels/66a01dcb8561260008b0a41d/colorLogoPNG.png" group-title="Music",MTV Classic (720p)
+http://206.212.244.63/117/index.m3u8
 #EXTINF:-1 tvg-id="MTVFlowLatino.us@SD" tvg-logo="https://images.pluto.tv/channels/62b218fc511d4b00070ddc0c/colorLogoPNG.png" group-title="Music",MTV Flow Latino (720p)
 https://jmp2.uk/plu-5d3609cd6a6c78d7672f2a81.m3u8
 https://jmp2.uk/plu-62b218fc511d4b00070ddc0c.m3u8
