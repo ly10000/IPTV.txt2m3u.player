@@ -1336,6 +1336,9 @@ https://jmp2.uk/plu-654ca7f92c1d3300086b608c.m3u8
 #EXTINF:-1 tvg-id="Nicktoons.us@East" tvg-logo="https://images.pluto.tv/channels/654ca7f92c1d3300086b608c/colorLogoPNG_1751457678592.png" group-title="Kids",Nicktoons (720p)
 http://40.160.24.55/NICKTOONS/index.m3u8
 
+#EXTINF:-1 tvg-id="Nicktoons.us@West" tvg-logo="https://images.pluto.tv/channels/654ca7f92c1d3300086b608c/colorLogoPNG_1751457678592.png" group-title="Kids",Nicktoons West (720p)
+http://108.181.20.255:27347/livehttpplay?channel_id=23079
+
 #EXTINF:-1 tvg-id="NonStopKungFu.se@DK" tvg-logo="https://images.pluto.tv/channels/6728d2be529ac9000830dc15/colorLogoPNG_1732110461260.png" group-title="Movies",NonStop Kung Fu
 https://jmp2.uk/plu-6728d2be529ac9000830dc15.m3u8
 
