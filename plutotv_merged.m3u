@@ -1051,13 +1051,12 @@ https://jmp2.uk/plu-65cce14060eb870008dbd003.m3u8
 https://jmp2.uk/plu-66ba495ffe11e5000881f049.m3u8
 #EXTINF:-1 tvg-id="ComediaalobestiadePlutoTV.de@ES" tvg-logo="https://images.pluto.tv/channels/68de3db35fc0afe85de0b843/colorLogoPNG_1759402494389.png" group-title="Comedy",Comedia a lo bestia de Pluto TV
 https://jmp2.uk/plu-68de3db35fc0afe85de0b843.m3u8
-#EXTINF:-1 tvg-id="ComedyCentral.se@DK" tvg-logo="https://images.pluto.tv/channels/61c0989431084d0007eab12d/colorLogoPNG.png" group-title="Comedy",Comedy Central (720p)
+#EXTINF:-1 tvg-id="ComedyCentral.us@East" tvg-logo="https://images.pluto.tv/channels/64f8a408bd341e000818fcda/colorLogoPNG.png" group-title="Comedy",Comedy Central (720p)
+http://4.30.180.36:8420/comedycentral/index.m3u8?token=test
 https://jmp2.uk/plu-61c0989431084d0007eab12d.m3u8
 #EXTINF:-1 tvg-id="ComedyCentral.us@CA" tvg-logo="https://images.pluto.tv/channels/64f8a408bd341e000818fcda/colorLogoPNG.png" group-title="Comedy",Comedy Central
 https://jmp2.uk/plu-61c0b550e0d3a700072b6a2a.m3u8
 https://jmp2.uk/plu-64f8a408bd341e000818fcda.m3u8
-#EXTINF:-1 tvg-id="ComedyCentral.us@East" tvg-logo="https://images.pluto.tv/channels/64f8a408bd341e000818fcda/colorLogoPNG.png" group-title="Comedy",Comedy Central (1080p)
-http://23.237.104.106:8080/USA_COMEDY_CENTRAL/index.m3u8
 #EXTINF:-1 tvg-id="ComedyCentralPlutoTV.us@US" tvg-logo="https://images.pluto.tv/channels/5f357e91b18f0b00073583d2/colorLogoPNG.png" group-title="Comedy",Comedy Central Pluto TV
 https://jmp2.uk/plu-5ca671f215a62078d2ec0abf.m3u8
 https://jmp2.uk/plu-5f357e91b18f0b00073583d2.m3u8
