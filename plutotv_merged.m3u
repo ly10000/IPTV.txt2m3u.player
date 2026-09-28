@@ -1176,8 +1176,6 @@ https://jmp2.uk/plu-68de3db35fc0afe85de0b843.m3u8
 https://jmp2.uk/plu-61c0b550e0d3a700072b6a2a.m3u8
 #EXTINF:-1 tvg-id="ComedyCentral.se@DK" tvg-logo="https://images.pluto.tv/channels/61c0989431084d0007eab12d/colorLogoPNG.png" group-title="Comedy",Comedy Central (Sweden) DK (720p)
 https://jmp2.uk/plu-61c0989431084d0007eab12d.m3u8
-#EXTINF:-1 tvg-id="ComedyCentral.us@East" tvg-logo="https://images.pluto.tv/channels/64f8a408bd341e000818fcda/colorLogoPNG.png" group-title="Comedy",Comedy Central (United States) (576p)
-https://tvsen3.aynaott.com/5fUWDMxZ/index.m3u8
 #EXTINF:-1 tvg-id="ComedyCentral.us@CA" tvg-logo="https://images.pluto.tv/channels/64f8a408bd341e000818fcda/colorLogoPNG.png" group-title="Comedy",Comedy Central (United States) CA
 https://jmp2.uk/plu-64f8a408bd341e000818fcda.m3u8
 #EXTINF:-1 tvg-id="ComedyCentralPlutoTV.us@US" tvg-logo="https://images.pluto.tv/channels/5f357e91b18f0b00073583d2/colorLogoPNG.png" group-title="Comedy",Comedy Central Pluto TV
@@ -1517,7 +1515,7 @@ https://jmp2.uk/plu-6357f3de3643ba0007bc0b50.m3u8
 #EXTINF:-1 tvg-id="PlutoTVSport.se@NO" tvg-logo="https://images.pluto.tv/channels/6357f3de3643ba0007bc0b50/colorLogoPNG_1746816938506.png" group-title="Sports",Pluto TV Sport (Sweden) NO
 https://jmp2.uk/plu-6357f33cb51d2d00077927c6.m3u8
 #EXTINF:-1 tvg-id="CanalClaro.cl@SD" tvg-logo="https://images.pluto.tv/channels/68224482c5d53e1351aaf2f2/colorLogoPNG_1751655767455.png" group-title="Undefined",Canal Claro (720p)
-https://jmp2.uk/plu-68224482c5d53e1351aaf2f2.m3u8
+http://168.196.127.137:6001/play/a04l/index.m3u8
 #EXTINF:-1 tvg-id="PlutoTVCompetencias.us@LatAm" tvg-logo="https://images.pluto.tv/channels/5dd6d935d000120009bc1132/logo7_2-20250131170429.png" group-title="Undefined",Pluto TV Competencias
 https://jmp2.uk/plu-5dd6d935d000120009bc1132.m3u8
 #EXTINF:-1 tvg-id="PlutoTVDocumentales.us@LatAm" tvg-logo="https://images.pluto.tv/channels/5ddc503ac7ef120009b101a2/colorLogoPNG_1767716226725.png" group-title="Undefined",Pluto TV Documentales
