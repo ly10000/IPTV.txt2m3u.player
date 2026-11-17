@@ -1012,8 +1012,8 @@ https://jmp2.uk/plu-645951c0e94c38000802d2cb.m3u8
 https://jmp2.uk/plu-645952687cb4b100084ed52e.m3u8
 #EXTINF:-1 tvg-id="NickToons90s.au@AU" tvg-logo="https://images.pluto.tv/channels/64805525536e0c0008a19ca8/colorLogoPNG.png" http-user-agent="otg/1.5.1 (AppleTv Apple TV 4; tvOS16.0; appletv.client) libcurl/7.58.0 OpenSSL/1.0.2o zlib/1.2.11 clib/1.8.56" group-title="Kids",NickToons 90s [Geo-blocked]
 https://i.mjh.nz/.r/10-nicktoons-90s.m3u8
-#EXTINF:-1 tvg-id="Nicktoons.us@East" tvg-logo="https://images.pluto.tv/channels/654ca7f92c1d3300086b608c/colorLogoPNG_1751457678592.png" group-title="Kids",Nicktoons (United States) (1080p)
-https://tvnow.hostless.app/nicktoons.m3u8
+#EXTINF:-1 tvg-id="Nicktoons.us@East" tvg-logo="https://images.pluto.tv/channels/654ca7f92c1d3300086b608c/colorLogoPNG_1751457678592.png" group-title="Kids",Nicktoons (United States) (720p)
+http://41.205.93.154/NICKTOONS/index.m3u8
 #EXTINF:-1 tvg-id="Nicktoons.us@CA" tvg-logo="https://images.pluto.tv/channels/654ca7f92c1d3300086b608c/colorLogoPNG_1751457678592.png" group-title="Kids",Nicktoons (United States) CA
 https://jmp2.uk/plu-654ca7f92c1d3300086b608c.m3u8
 #EXTINF:-1 tvg-id="OggyeasBaratasTontas.us@BR" tvg-logo="https://images.pluto.tv/channels/63221bafdc6e110007b50270/colorLogoPNG.png" group-title="Kids",Oggy e as Baratas Tontas
@@ -1154,8 +1154,6 @@ https://jmp2.uk/plu-68de3db35fc0afe85de0b843.m3u8
 https://jmp2.uk/plu-61c0b550e0d3a700072b6a2a.m3u8
 #EXTINF:-1 tvg-id="ComedyCentral.se@DK" tvg-logo="https://images.pluto.tv/channels/61c0989431084d0007eab12d/colorLogoPNG.png" group-title="Comedy",Comedy Central (Sweden) DK (720p)
 https://jmp2.uk/plu-61c0989431084d0007eab12d.m3u8
-#EXTINF:-1 tvg-id="ComedyCentral.us@East" tvg-logo="https://images.pluto.tv/channels/64f8a408bd341e000818fcda/colorLogoPNG.png" group-title="Comedy",Comedy Central (United States) (1080p)
-https://tvnow.hostless.app/comedy-central.m3u8
 #EXTINF:-1 tvg-id="ComedyCentral.us@CA" tvg-logo="https://images.pluto.tv/channels/64f8a408bd341e000818fcda/colorLogoPNG.png" group-title="Comedy",Comedy Central (United States) CA
 https://jmp2.uk/plu-64f8a408bd341e000818fcda.m3u8
 #EXTINF:-1 tvg-id="ComedyCentralPlutoTV.us@US" tvg-logo="https://images.pluto.tv/channels/5f357e91b18f0b00073583d2/colorLogoPNG.png" group-title="Comedy",Comedy Central Pluto TV
@@ -1474,24 +1472,6 @@ https://jmp2.uk/plu-62cd74e38f6f0d000798cd93.m3u8
 https://jmp2.uk/plu-6357f3de3643ba0007bc0b50.m3u8
 #EXTINF:-1 tvg-id="PlutoTVSport.se@NO" tvg-logo="https://images.pluto.tv/channels/6357f3de3643ba0007bc0b50/colorLogoPNG_1746816938506.png" group-title="Sports",Pluto TV Sport (Sweden) NO
 https://jmp2.uk/plu-6357f33cb51d2d00077927c6.m3u8
-#EXTINF:-1 tvg-id="CanalClaro.cl@SD" tvg-logo="https://images.pluto.tv/channels/68224482c5d53e1351aaf2f2/colorLogoPNG_1751655767455.png" group-title="Undefined",Canal Claro (720p)
-https://jmp2.uk/plu-68224482c5d53e1351aaf2f2.m3u8
-#EXTINF:-1 tvg-id="PlutoTVCompetencias.us@LatAm" tvg-logo="https://images.pluto.tv/channels/5dd6d935d000120009bc1132/logo7_2-20250131170429.png" group-title="Undefined",Pluto TV Competencias
-https://jmp2.uk/plu-5dd6d935d000120009bc1132.m3u8
-#EXTINF:-1 tvg-id="PlutoTVDocumentales.us@LatAm" tvg-logo="https://images.pluto.tv/channels/5ddc503ac7ef120009b101a2/colorLogoPNG_1767716226725.png" group-title="Undefined",Pluto TV Documentales
-https://jmp2.uk/plu-5ddc503ac7ef120009b101a2.m3u8
-#EXTINF:-1 tvg-id="PlutoTVHistoria.us@BR" tvg-logo="https://images.pluto.tv/channels/5f1ef1a8cec6be00072a7ac9/colorLogoPNG_1754405659295.png" group-title="Undefined",Pluto TV Historia (United States)
-https://jmp2.uk/plu-5f1ef1a8cec6be00072a7ac9.m3u8
-#EXTINF:-1 tvg-id="PlutoTVHistoria.us@LatAm" tvg-logo="https://images.pluto.tv/channels/5f1ef1a8cec6be00072a7ac9/colorLogoPNG_1754405659295.png" group-title="Undefined",Pluto TV Historia (United States) LatAm
-https://jmp2.uk/plu-5de5758e1a30dc00094fcd6c.m3u8
-#EXTINF:-1 tvg-id="PlutoTVHistoriasdeUltratumba.us@LatAm" tvg-logo="https://images.pluto.tv/channels/5f4d3696d938c900072679fd/colorLogoPNG.png" group-title="Undefined",Pluto TV Historias de Ultratumba
-https://jmp2.uk/plu-5f4d3696d938c900072679fd.m3u8
-#EXTINF:-1 tvg-id="PlutoTVHumor.us@LatAm" tvg-logo="https://images.pluto.tv/channels/5e8397936791b30007ebb5a7/colorLogoPNG.png" group-title="Undefined",Pluto TV Humor (United States)
-https://jmp2.uk/plu-5e8397936791b30007ebb5a7.m3u8
-#EXTINF:-1 tvg-id="PlutoTVPeleas.us@LatAm" tvg-logo="https://images.pluto.tv/channels/5e98b0447665f200078caded/colorLogoPNG.png" group-title="Undefined",Pluto TV Peleas
-https://jmp2.uk/plu-5e98b0447665f200078caded.m3u8
-#EXTINF:-1 tvg-id="PlutoTVVelocidad.us@LatAm" tvg-logo="https://images.pluto.tv/channels/5dd6dc7480e3550009133d4a/colorLogoPNG.png" group-title="Undefined",Pluto TV Velocidad
-https://jmp2.uk/plu-5dd6dc7480e3550009133d4a.m3u8
 #EXTINF:-1 tvg-id="ClassicTVCrimeDrama.us@SD" tvg-logo="https://images.pluto.tv/channels/61325c4f982acd000723287e/colorLogoPNG.png" group-title="Classic",Classic TV Crime Drama
 https://jmp2.uk/plu-61325c4f982acd000723287e.m3u8
 #EXTINF:-1 tvg-id="ClassicTVFamilies.us@US" tvg-logo="https://images.pluto.tv/channels/62e91af00c43540007f2bb43/colorLogoPNG.png" group-title="Classic",Classic TV: Families
@@ -1868,6 +1848,22 @@ https://jmp2.uk/plu-61c0b36d18447e000717d686.m3u8
 https://jmp2.uk/plu-61c1e3a679a4390007c78136.m3u8
 #EXTINF:-1 tvg-id="PlutoTVKultComedies.de@DACH" tvg-logo="https://images.pluto.tv/channels/66337de656fc840008ff7a65/colorLogoPNG.png" group-title="Comedy;Movies",Pluto TV Kult Comedies
 https://jmp2.uk/plu-66337de656fc840008ff7a65.m3u8
+#EXTINF:-1 tvg-id="PlutoTVCompetencias.us@LatAm" tvg-logo="https://images.pluto.tv/channels/5dd6d935d000120009bc1132/logo7_2-20250131170429.png" group-title="Undefined",Pluto TV Competencias
+https://jmp2.uk/plu-5dd6d935d000120009bc1132.m3u8
+#EXTINF:-1 tvg-id="PlutoTVDocumentales.us@LatAm" tvg-logo="https://images.pluto.tv/channels/5ddc503ac7ef120009b101a2/colorLogoPNG_1767716226725.png" group-title="Undefined",Pluto TV Documentales
+https://jmp2.uk/plu-5ddc503ac7ef120009b101a2.m3u8
+#EXTINF:-1 tvg-id="PlutoTVHistoria.us@BR" tvg-logo="https://images.pluto.tv/channels/5f1ef1a8cec6be00072a7ac9/colorLogoPNG_1754405659295.png" group-title="Undefined",Pluto TV Historia (United States)
+https://jmp2.uk/plu-5f1ef1a8cec6be00072a7ac9.m3u8
+#EXTINF:-1 tvg-id="PlutoTVHistoria.us@LatAm" tvg-logo="https://images.pluto.tv/channels/5f1ef1a8cec6be00072a7ac9/colorLogoPNG_1754405659295.png" group-title="Undefined",Pluto TV Historia (United States) LatAm
+https://jmp2.uk/plu-5de5758e1a30dc00094fcd6c.m3u8
+#EXTINF:-1 tvg-id="PlutoTVHistoriasdeUltratumba.us@LatAm" tvg-logo="https://images.pluto.tv/channels/5f4d3696d938c900072679fd/colorLogoPNG.png" group-title="Undefined",Pluto TV Historias de Ultratumba
+https://jmp2.uk/plu-5f4d3696d938c900072679fd.m3u8
+#EXTINF:-1 tvg-id="PlutoTVHumor.us@LatAm" tvg-logo="https://images.pluto.tv/channels/5e8397936791b30007ebb5a7/colorLogoPNG.png" group-title="Undefined",Pluto TV Humor (United States)
+https://jmp2.uk/plu-5e8397936791b30007ebb5a7.m3u8
+#EXTINF:-1 tvg-id="PlutoTVPeleas.us@LatAm" tvg-logo="https://images.pluto.tv/channels/5e98b0447665f200078caded/colorLogoPNG.png" group-title="Undefined",Pluto TV Peleas
+https://jmp2.uk/plu-5e98b0447665f200078caded.m3u8
+#EXTINF:-1 tvg-id="PlutoTVVelocidad.us@LatAm" tvg-logo="https://images.pluto.tv/channels/5dd6dc7480e3550009133d4a/colorLogoPNG.png" group-title="Undefined",Pluto TV Velocidad
+https://jmp2.uk/plu-5dd6dc7480e3550009133d4a.m3u8
 #EXTINF:-1 tvg-id="PlutoTVCozinha.us@BR" tvg-logo="https://images.pluto.tv/channels/5f1ef23020a5ac0007e5e8ea/colorLogoPNG.png" group-title="Lifestyle",Pluto TV Cozinha
 https://jmp2.uk/plu-5f1ef23020a5ac0007e5e8ea.m3u8
 #EXTINF:-1 tvg-id="PlutoTVDiseno.de@ES" tvg-logo="https://images.pluto.tv/channels/64db2e0835425100080f2f5a/colorLogoPNG.png" group-title="Lifestyle",Pluto TV Diseno
